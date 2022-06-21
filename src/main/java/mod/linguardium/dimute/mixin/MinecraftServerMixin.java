@@ -24,23 +24,22 @@ public abstract class MinecraftServerMixin {
 
     @ModifyArgs(at=@At(value="INVOKE",target="Lnet/minecraft/server/world/ServerWorld;<init>(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorage$Session;Lnet/minecraft/world/level/ServerWorldProperties;Lnet/minecraft/util/registry/RegistryKey;Lnet/minecraft/world/dimension/DimensionOptions;Lnet/minecraft/server/WorldGenerationProgressListener;ZJLjava/util/List;Z)V",ordinal = 1),method="createWorlds")
     private void setAndCopyMutableProperties(Args args) {
-        ServerWorldProperties immutable = args.get(3);
+        RegistryKey<World> worldResourceKey = args.get(4);
+        boolean DebugMode = args.get(7);
+        if (!worldResourceKey.getValue().getNamespace().equals("minecraft")) {
+            @SuppressWarnings("UnstableApiUsage")
+            ServerWorldProperties immutable = args.get(3);
 
-        if (immutable instanceof UnmodifiableLevelProperties) {
-            ServerWorldProperties baseProperties = ((UnmodifiableLevelPropertiesAccessor)immutable).getWorldProperties();
+            if (immutable instanceof UnmodifiableLevelProperties) {
+                ServerWorldProperties baseProperties = ((UnmodifiableLevelPropertiesAccessor)immutable).getWorldProperties();
                 if (baseProperties instanceof LevelProperties) {
                     args.set(3,((copyableProperties)baseProperties).copy());
                 } else {
                     args.set(3,baseProperties);
                 }
-        } else {
-            args.set(3,immutable);
-        }
-
-        RegistryKey<World> worldResourceKey = args.get(4);
-        boolean DebugMode = args.get(7);
-        if (!worldResourceKey.getValue().getNamespace().equals("minecraft")) {
-            @SuppressWarnings("UnstableApiUsage")
+            } else {
+                args.set(3,immutable);
+            }
             HashFunction hashing = Hashing.sha256();
             byte[] resourceStringBytes = worldResourceKey.getValue().toString().getBytes(StandardCharsets.UTF_8);
             byte[] originalSeedBytes = Longs.toByteArray(args.get(8));
