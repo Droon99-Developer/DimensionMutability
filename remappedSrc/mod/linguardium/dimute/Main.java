@@ -2,7 +2,7 @@ package mod.linguardium.dimute;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;

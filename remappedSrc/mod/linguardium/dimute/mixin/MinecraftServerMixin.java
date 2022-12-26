@@ -6,7 +6,7 @@ import com.google.common.primitives.Longs;
 import mod.linguardium.dimute.Main;
 import mod.linguardium.dimute.api.copyableProperties;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.level.LevelProperties;
 import net.minecraft.world.level.ServerWorldProperties;
@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 public abstract class MinecraftServerMixin {
     @Shadow public abstract void resetRecorder();
 
-    @ModifyArgs(at=@At(value="INVOKE",target="Lnet/minecraft/server/world/ServerWorld;<init>(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorage$Session;Lnet/minecraft/world/level/ServerWorldProperties;Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/world/dimension/DimensionOptions;Lnet/minecraft/server/WorldGenerationProgressListener;ZJLjava/util/List;Z)V",ordinal = 1),method="createWorlds")
+    @ModifyArgs(at=@At(value="INVOKE",target="Lnet/minecraft/server/world/ServerWorld;<init>(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorage$Session;Lnet/minecraft/world/level/ServerWorldProperties;Lnet/minecraft/util/registry/RegistryKey;Lnet/minecraft/world/dimension/DimensionOptions;Lnet/minecraft/server/WorldGenerationProgressListener;ZJLjava/util/List;Z)V",ordinal = 1),method="createWorlds")
     private void setAndCopyMutableProperties(Args args) {
         RegistryKey<World> worldResourceKey = args.get(4);
         boolean DebugMode = args.get(7);

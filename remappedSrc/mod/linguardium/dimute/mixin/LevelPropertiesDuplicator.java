@@ -5,7 +5,6 @@ import mod.linguardium.dimute.api.copyableProperties;
 import net.minecraft.world.gen.GeneratorOptions;
 import net.minecraft.world.level.LevelInfo;
 import net.minecraft.world.level.LevelProperties;
-import net.minecraft.world.level.LevelProperties.SpecialProperty;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,6 +20,6 @@ public class LevelPropertiesDuplicator implements copyableProperties {
 
     @Override
     public LevelProperties copy() {
-        return new LevelProperties(levelInfo,generatorOptions, SpecialProperty.NONE, lifecycle);
+        return new LevelProperties(levelInfo,generatorOptions,lifecycle);
     }
 }
